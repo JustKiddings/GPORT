@@ -1,2 +1,10 @@
 # GPORT
-GPORT is a PowerShell script that automates Windows 10 hardening using GPO Backup based on CIS Benchmarks
+GPORT (GPO + Import) is a PowerShell script that automates GPO importing from backup.
+
+## Usage
+
+
+## Important
+
+
+### On GPOs on Windows Server
