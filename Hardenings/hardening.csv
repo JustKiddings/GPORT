@@ -47,7 +47,7 @@ SubSection;Level;Remediation;Value;;Additional Info;
 2.2.37;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\User Rights Assignment\Restore files and directories;Administrators;;;
 2.2.38;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\User Rights Assignment\Shut down the system;Administrators, Users;;;
 2.2.39;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\User Rights Assignment\Take ownership of files or other objects;Administrators;;;
-2.3.1.1;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Accounts: Block Microsoft accounts;Users can't add or log on with Microsoft accounts;;;
+2.3.1.1;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Accounts: Block Microsoft accounts;'Users can''t add or log on with Microsoft accounts';;;
 2.3.1.2;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Accounts: Guest account status;Disabled;;;
 2.3.1.3;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Accounts: Limit local account use of blank passwords to console logon only;Enabled;;;
 2.3.1.4;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Accounts: Rename administrator account;Ask User;x;;
@@ -61,7 +61,7 @@ SubSection;Level;Remediation;Value;;Additional Info;
 2.3.6.5;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Domain member: Maximum machine account password age;30;;Days;
 2.3.6.6;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Domain member: Require strong (Windows 2000 or later) session key;Enabled;;;
 2.3.7.1;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Interactive logon: Do not require CTRL+ALT+DEL;Disabled;;;
-2.3.7.2;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Interactive logon: Don't display last signed-in;Enabled;;;
+2.3.7.2;L1;'Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Interactive logon: Don''t display last signed-in';Enabled;;;
 2.3.7.4;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Interactive logon: Machine inactivity limit;900;;Seconds;
 2.3.7.5;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Interactive logon: Message text for users attempting to log on;Ask User;x;;
 2.3.7.6;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Interactive logon: Message title for users attempting to log on;Ask User;x;;
@@ -81,10 +81,10 @@ SubSection;Level;Remediation;Value;;Additional Info;
 2.3.10.4;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Do not allow storage of passwords and credentials for network authentication;Enabled;;;
 2.3.10.5;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Let Everyone permissions apply to anonymous users;Disabled;;;
 2.3.10.6;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Named Pipes that can be accessed anonymously;” ”;;Empty;
-2.3.10.7;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Remotely accessible registry paths;"System\CurrentControlSet\Control\ProductOptions
+2.3.10.7;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Remotely accessible registry paths;'System\CurrentControlSet\Control\ProductOptions
 System\CurrentControlSet\Control\Server Applications
-SOFTWARE\Microsoft\Windows NT\CurrentVersion";;;
-2.3.10.8;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Remotely accessible registry paths and sub-paths;"System\CurrentControlSet\Control\Print\Printers
+SOFTWARE\Microsoft\Windows NT\CurrentVersion';;;
+2.3.10.8;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Remotely accessible registry paths and sub-paths;'System\CurrentControlSet\Control\Print\Printers
 System\CurrentControlSet\Services\Eventlog
 SOFTWARE\Microsoft\OLAP Server
 SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print
@@ -95,7 +95,7 @@ System\CurrentControlSet\Control\Terminal Server\UserConfig
 System\CurrentControlSet\Control\Terminal
 Server\DefaultUserConfiguration
 SOFTWARE\Microsoft\Windows NT\CurrentVersion\Perflib
-System\CurrentControlSet\Services\SysmonLog";;;
+System\CurrentControlSet\Services\SysmonLog';;;
 2.3.10.9;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Restrict anonymous access to Named Pipes and Shares;Enabled;;;
 2.3.10.10;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Restrict clients allowed to make remote calls to SAM;Administrators: Remote Access: Allow;;;
 2.3.10.11;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\Network access: Shares that can be accessed Anonymously;” ”;;Empty;
@@ -122,27 +122,27 @@ System\CurrentControlSet\Services\SysmonLog";;;
 2.3.17.6;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\User Account Control: Run all administrators in Admin Approval Mode;Enabled;;;
 2.3.17.7;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\User Account Control: Switch to the secure desktop when prompting for elevation;Enabled;;;
 2.3.17.8;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Local Policies\Security Options\User Account Control: Virtualize file and registry write failures to per-user locations;Enabled;;;
-5.3;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Computer Browser;Disabled;;;
-5.7;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\IIS Admin Service;Disabled;;;
-5.8;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Infrared monitor service;Disabled;;;
+5.3;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Computer Browser;Disabled;x;Not found by default;
+5.7;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\IIS Admin Service;Disabled;x;Not found by default;
+5.8;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Infrared monitor service;Disabled;x;Not found by default;
 5.9;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Internet Connection Sharing (ICS);Disabled;;;
-5.11;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\LxssManager;Disabled;;;
-5.12;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Microsoft FTP Service;Disabled;;;
+5.11;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\LxssManager;Disabled;x;Not found by default;
+5.12;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Microsoft FTP Service;Disabled;x;Not found by default;
 5.14;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\OpenSSH SSH Server;Disabled;;;
 5.25;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Remote Procedure Call (RPC) Locator;Disabled;;;
 5.27;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Routing and Remote Access;Disabled;;;
-5.29;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Simple TCP/IP Services;Disabled;;;
+5.29;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Simple TCP/IP Services;Disabled;x;Not found by default;
 5.31;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Special Administration Console Helper;Disabled;;;
 5.32;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\SSDP Discovery;Disabled;;;
 5.33;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\UPnP Device Host;Disabled;;;
-5.34;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Web Management Service;Disabled;;;
+5.34;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Web Management Service;Disabled;x;Not found by default;
 5.37;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Windows Media Player Network Sharing Service;Disabled;;;
-5.38;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Windows Mobile Hotspot Service;Disabled;;;
+5.38;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Windows Mobile Hotspot Service;Disabled;x;Not found by default;
 5.43;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\World Wide Web Publishing Service;Disabled;;;
-5.44;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Xbox Accessory Management Service;Disabled;;;
+5.44;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Xbox Accessory Management Service;Disabled;x;Not found by default;
 5.45;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Xbox Live Auth Manager;Disabled;;;
-5.46;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Xbox Live Game Save;Disabled;;;
-5.47;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Xbox Live Networking Service;Disabled;;;
+5.46;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Xbox Live Game Save;Disabled;x;Not found by default;
+5.47;L1;Computer Configuration\Policies\Windows Settings\Security Settings\System Services\Xbox Live Networking Service;Disabled;x;Not found by default;
 9.1.1;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Windows Defender Firewall with Advanced Security\Windows Defender Firewall with Advanced Security\Windows Defender Firewall Properties\Domain Profile\Firewall state;On (recommended);;;
 9.1.2;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Windows Defender Firewall with Advanced Security\Windows Defender Firewall with Advanced Security\Windows Defender Firewall Properties\Domain Profile\Inbound connections;Block (default);;;
 9.1.3;L1;Computer Configuration\Policies\Windows Settings\Security Settings\Windows Defender Firewall with Advanced Security\Windows Defender Firewall with Advanced Security\Windows Defender Firewall Properties\Domain Profile\Settings Customize\Display a notification;No;;;
@@ -196,32 +196,32 @@ System\CurrentControlSet\Services\SysmonLog";;;
 18.1.1.1;L1;Computer Configuration\Policies\Administrative Templates\Control Panel\Personalization\Prevent enabling lock screen camera;Enabled;;;
 18.1.1.2;L1;Computer Configuration\Policies\Administrative Templates\Control Panel\Personalization\Prevent enabling lock screen slide show;Enabled;;;
 18.1.2.2;L1;Computer Configuration\Policies\Administrative Templates\Control Panel\Regional and Language Options\Allow users to enable online speech recognition services;Disabled;;;
-18.4.1;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Apply UAC restrictions to local accounts on network logons;Enabled;;;
-18.4.2;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Configure SMB v1 client driver;Enabled: Disable driver (recommended);;;
-18.4.3;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Configure SMB v1 server;Disabled;;;
-18.4.4;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Enable Certificate Padding;Enabled;;;
-18.4.5;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Enable Structured Exception Handling Overwrite Protection (SEHOP);Enabled;;;
-18.4.6;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\LSA Protection;Enabled;;;
-18.4.7;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\NetBT NodeType configuration;Enabled: P-node (recommended);;;
-18.4.8;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\WDigest Authentication (disabling may require KB2871997);Disabled;;;
-18.5.1;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (AutoAdminLogon) Enable Automatic Logon;Disabled;;;
-18.5.2;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (DisableIPSourceRouting IPv6) IP source routing protection level;Enabled: Highest protection, source routing is completely disabled;;;
-18.5.3;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (DisableIPSourceRouting) IP source routing protection level;Enabled: Highest protection, source routing is completely disabled;;;
-18.5.5;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (EnableICMPRedirect) Allow ICMP redirects to override OSPF generated routes;Disabled;;;
-18.5.7;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (NoNameReleaseOnDemand) Allow the computer to ignore NetBIOS name release requests except from WINS servers;Enabled;;;
-18.5.9;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (SafeDllSearchMode) Enable Safe DLL search mode;Enabled;;;
-18.5.10;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (ScreenSaverGracePeriod) The time in seconds before the screen saver grace period expires;Enabled: 5 or fewer seconds;;;
-18.5.13;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (WarningLevel) Percentage threshold for the security event log at which the system will generate a warning;Enabled: 90% or less;;;
+18.4.1;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Apply UAC restrictions to local accounts on network logons;Enabled;x;Not found by default;
+18.4.2;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Configure SMB v1 client driver;Enabled: Disable driver (recommended);x;Not found by default;
+18.4.3;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Configure SMB v1 server;Disabled;x;Not found by default;
+18.4.4;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Enable Certificate Padding;Enabled;x;Not found by default;
+18.4.5;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\Enable Structured Exception Handling Overwrite Protection (SEHOP);Enabled;x;Not found by default;
+18.4.6;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\LSA Protection;Enabled;x;Not found by default;
+18.4.7;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\NetBT NodeType configuration;Enabled: P-node (recommended);x;Not found by default;
+18.4.8;L1;Computer Configuration\Policies\Administrative Templates\MS Security Guide\WDigest Authentication (disabling may require KB2871997);Disabled;x;Not found by default;
+18.5.1;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (AutoAdminLogon) Enable Automatic Logon;Disabled;x;Not found by default;
+18.5.2;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (DisableIPSourceRouting IPv6) IP source routing protection level;Enabled: Highest protection, source routing is completely disabled;x;Not found by default;
+18.5.3;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (DisableIPSourceRouting) IP source routing protection level;Enabled: Highest protection, source routing is completely disabled;x;Not found by default;
+18.5.5;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (EnableICMPRedirect) Allow ICMP redirects to override OSPF generated routes;Disabled;x;Not found by default;
+18.5.7;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (NoNameReleaseOnDemand) Allow the computer to ignore NetBIOS name release requests except from WINS servers;Enabled;x;Not found by default;
+18.5.9;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (SafeDllSearchMode) Enable Safe DLL search mode;Enabled;x;Not found by default;
+18.5.10;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (ScreenSaverGracePeriod) The time in seconds before the screen saver grace period expires;Enabled: 5 or fewer seconds;x;Not found by default;
+18.5.13;L1;Computer Configuration\Policies\Administrative Templates\MSS (Legacy)\MSS: (WarningLevel) Percentage threshold for the security event log at which the system will generate a warning;Enabled: 90% or less;x;Not found by default;
 18.6.4.1;L1;Computer Configuration\Policies\Administrative Templates\Network\DNS Client\Configure multicast DNS (mDNS) protocol;Disabled;;;
 18.6.4.2;L1;Computer Configuration\Policies\Administrative Templates\Network\DNS Client\Configure NetBIOS settings;Enabled: Disable NetBIOS name resolution on public networks;;;
 18.6.4.4;L1;Computer Configuration\Policies\Administrative Templates\Network\DNS Client\Turn off multicast name resolution;Enabled;;;
 18.6.8.1;L1;Computer Configuration\Policies\Administrative Templates\Network\Lanman Workstation\Enable insecure guest logons;Disabled;;;
 18.6.11.2;L1;Computer Configuration\Policies\Administrative Templates\Network\Network Connections\Prohibit installation and configuration of Network Bridge on your DNS domain network;Enabled;;;
 18.6.11.3;L1;Computer Configuration\Policies\Administrative Templates\Network\Network Connections\Prohibit use of Internet Connection Sharing on your DNS domain network;Enabled;;;
-18.6.11.4;L1;Computer Configuration\Policies\Administrative Templates\Network\Network Connections\Require domain users to elevate when setting a network's location;Enabled;;;
-18.6.14.1;L1;Computer Configuration\Policies\Administrative Templates\Network\Network Provider\Hardened UNC Paths;"Enabled, with ""Require Mutual
-Authentication"", ""Require Integrity"", and “Require Privacy” set for
-all NETLOGON and SYSVOL shares";;;
+18.6.11.4;L1;'Computer Configuration\Policies\Administrative Templates\Network\Network Connections\Require domain users to elevate when setting a network''s location';Enabled;;;
+18.6.14.1;L1;Computer Configuration\Policies\Administrative Templates\Network\Network Provider\Hardened UNC Paths;'Enabled, with "Require Mutual
+Authentication", "Require Integrity", and “Require Privacy” set for
+all NETLOGON and SYSVOL shares';;;
 18.6.21.1;L1;Computer Configuration\Policies\Administrative Templates\Network\Windows Connection Manager\Minimize the number of simultaneous connections to the Internet or a Windows Domain;Enabled: 3 = Prevent Wi-Fi when on Ethernet;;;
 18.6.21.2;L1;Computer Configuration\Policies\Administrative Templates\Network\Windows Connection Manager\Prohibit connection to non-domain networks when connected to domain authenticated network;Enabled;;;
 18.6.23.2.1;L1;Computer Configuration\Policies\Administrative Templates\Network\WLAN Service\WLAN Settings\Allow Windows to automatically connect to suggested open hotspots, to networks shared by contacts, and to hotspots offering paid services;Disabled;;;
@@ -355,11 +355,11 @@ all NETLOGON and SYSVOL shares";;;
 18.10.66.3;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Store\Turn off the offer to update to the latest version of Windows;Enabled;;;
 18.10.72.1;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Widgets\Allow widgets;Disabled;;;
 18.10.76.2.1;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Defender SmartScreen\Explorer\Configure Windows Defender SmartScreen;Enabled: Warn and prevent bypass;;;
-18.10.78.1;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Game Recording and Broadcasting\Enables or disables Windows Game Recording and Broadcasting;Disabled;;;
+18.10.78.1;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Game Recording and Broadcasting\Enables or disables Windows Game Recording and Broadcasting;Disabled;x;Not found by default;
 18.10.80.2;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Ink Workspace\Allow Windows Ink Workspace;Enabled: Disabled;;;
 18.10.81.1;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Installer\Allow user control over installs;Disabled;;;
 18.10.81.2;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Installer\Always install with elevated privileges;Disabled;;;
-18.10.82.1;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Logon Options\Configure the transmission of the user's password in the content of MPR notifications sent by winlogon.;Disabled;;;
+18.10.82.1;L1;'Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Logon Options\Configure the transmission of the user''s password in the content of MPR notifications sent by winlogon.';Disabled;;;
 18.10.82.2;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Logon Options\Sign-in and lock last interactive user automatically after a restart;Disabled;;;
 18.10.89.1.1;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Remote Management (WinRM)\WinRM Client\Allow Basic authentication;Disabled;;;
 18.10.89.1.2;L1;Computer Configuration\Policies\Administrative Templates\Windows Components\Windows Remote Management (WinRM)\WinRM Client\Allow unencrypted traffic;Disabled;;;
