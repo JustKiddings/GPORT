@@ -14,7 +14,7 @@ Usage: .\hardening.ps1 [-Msg] [-Rename] [-OU] [-Help]
 Parameters:
   -Msg     Prompts for title and text shown before log in.
   -Rename  Prompts for new Administrator and Guest account names.
-  -OU      Creates OU and links the GPO.
+  -OU      Creates OU and links the GPO to OU.
 "@ | Write-Host
     exit
 }
@@ -194,7 +194,7 @@ finally {
 # ==========================================
 
 if ($OU) {
-    $ouName = Read-Host "Enter OU name to create/link"
+    $ouName = Read-Host "Enter OU name to create"
     $domainDN = (Get-ADDomain).DistinguishedName
     $ouDN = "OU=$ouName,$domainDN"
 
@@ -223,4 +223,3 @@ if ($OU) {
         }
     }
 }
-
