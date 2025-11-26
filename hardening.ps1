@@ -9,7 +9,7 @@
 # Show help if requested
 if ($Help -or $h) {
 @"
-Usage: .\gpt.ps1 [-Msg] [-Rename] [-OU] [-Help]
+Usage: .\hardening.ps1 [-Msg] [-Rename] [-OU] [-Help]
 
 Parameters:
   -Msg
@@ -287,3 +287,4 @@ if ($OU) {
     New-GPLink -Name $gpoName -Target $ouDN -Enforced No
     Write-Host "✅ GPO linked to OU."
 }
+
