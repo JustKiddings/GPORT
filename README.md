@@ -5,7 +5,7 @@
 ## Quick Start
 
 ### Prerequisites
-* **OS:** Domain joined Windows 10/11 PC and Windows Server.
+* **OS:** At least one domain joined Windows 10/11 PC and Windows Server running as DC.
 * **Permissions:** Domain Administrator or Delegated GPO/OU access.
 * **Files:** A valid GPO backup folder must be in the script directory.
 
