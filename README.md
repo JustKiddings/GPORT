@@ -4,6 +4,7 @@
 
 ## Quick Start
 
+<<<<<<< HEAD
 ### Prerequisites
 * **OS:** Domain joined Windows 10/11 PC and Windows Server.
 * **Permissions:** Domain Administrator or Delegated GPO/OU access.
@@ -11,6 +12,29 @@
 
 ### Usage
 Run the script to import hardening settings.
+=======
+## Coverage & Compatibility
+
+### Windows 10
+* **Without Parameters:** The script covers **99%** of the CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0) L1 level.
+* **With Parameters:** When run with `-Msg` and `-Rename`, the script achieves **100%** coverage.
+
+### Windows 11
+* **Note:** Windows 11 support is **not proper** at this time.
+* The current GPO Backup covers approximately **86%** of the **CIS Microsoft Windows 11 Enterprise Benchmark (v4.0.0) L1 level**.
+
+## Reports
+You can find the detailed compliance and validation reports here:
+[to fill]
+
+## Prerequisites
+
+* **OS:** Domain joined Windows 10/11 Workstation and Windows Server.
+* **Permissions:** Domain Administrator or Delegated GPO/OU permissions.
+* **Files:** A valid GPO backup folder (containing `GptTmpl.inf`) must exist in the same directory as the script.
+
+## Usage
+>>>>>>> 5ea2229429c9ddee831e74de88b8914ec44fa8fb
 
 ```powershell
 .\hardening.ps1 -h
