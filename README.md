@@ -8,7 +8,6 @@ The hardening settings imported by this script are derived from the **CIS Micros
 
 * **OS:** Windows 10/11 or Windows Server.
 * **Permissions:** Domain Administrator or Delegated GPO/OU permissions.
-* **Dependencies:** RSAT (Remote Server Administration Tools) must be installed.
 * **Files:** A valid GPO backup folder (containing `GptTmpl.inf`) must exist in the same directory as the script.
 
 ## Usage
