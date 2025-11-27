@@ -4,9 +4,23 @@
 
 The hardening settings imported by this script are derived from the **CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0) - Level 1**. You can obtain the official benchmark document from [CIS Security Benchmarks](https://learn.cisecurity.org/benchmarks).
 
+## Coverage & Compatibility
+
+### Windows 10
+* **Without Parameters:** The script covers **99%** of the CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0) L1 level.
+* **With Parameters:** When run with `-Msg` and `-Rename`, the script achieves **100%** coverage.
+
+### Windows 11
+* **Note:** Windows 11 support is **not proper** at this time.
+* The current GPO Backup covers approximately **86%** of the **CIS Microsoft Windows 11 Enterprise Benchmark (v4.0.0) L1 level**.
+
+## Reports
+You can find the detailed compliance and validation reports here:
+[to fill]
+
 ## Prerequisites
 
-* **OS:** Windows 10/11 or Windows Server.
+* **OS:** Domain joined Windows 10/11 Workstation and Windows Server.
 * **Permissions:** Domain Administrator or Delegated GPO/OU permissions.
 * **Files:** A valid GPO backup folder (containing `GptTmpl.inf`) must exist in the same directory as the script.
 
