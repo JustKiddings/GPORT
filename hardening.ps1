@@ -12,9 +12,10 @@ if ($Help -or $h) {
 Usage: .\hardening.ps1 [-Msg] [-Rename] [-OU] [-Help]
 
 Parameters:
-  -Msg     Prompts for title and text shown before log in.
-  -Rename  Prompts for new Administrator and Guest account names.
-  -OU      Creates OU and links the GPO to OU.
+  -Msg          Prompts for title and text shown before log in.
+  -Rename       Prompts for new Administrator and Guest account names.
+  -OU           Creates OU and links the GPO to OU.
+  -Help / -h    Shows this help section.
 "@ | Write-Host
     exit
 }
@@ -223,3 +224,4 @@ if ($OU) {
         }
     }
 }
+
