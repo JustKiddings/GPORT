@@ -1,87 +1,65 @@
 # GPORT
 
-**GPORT** (GPO + Import) is a PowerShell script designed to automate the hardening of Windows machines by importing Group Policy Object (GPO) backups.
+**GPORT** automates Windows machine hardening by importing Group Policy Object (GPO) backup derived from hardening suggestions in the **[CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0)](https://learn.cisecurity.org/benchmarks) document**.
 
-The hardening settings imported by this script are derived from the **CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0) - Level 1**. You can obtain the official benchmark document from [CIS Security Benchmarks](https://learn.cisecurity.org/benchmarks).
+## Quick Start
 
-## Prerequisites
+### Prerequisites
+* **OS:** Domain joined Windows 10/11 PC and Windows Server.
+* **Permissions:** Domain Administrator or Delegated GPO/OU access.
+* **Files:** A valid GPO backup folder must be in the script directory.
 
-* **OS:** Windows 10/11 or Windows Server.
-* **Permissions:** Domain Administrator or Delegated GPO/OU permissions.
-* **Dependencies:** RSAT (Remote Server Administration Tools) must be installed.
-* **Files:** A valid GPO backup folder (containing `GptTmpl.inf`) must exist in the same directory as the script.
-
-## Usage
+### Usage
+Run the script to import hardening settings.
 
 ```powershell
 .\hardening.ps1 -h
 
-Usage: .\hardening.ps1 [-Msg] [-Rename] [-OU] [-Help]
+Usage: .\hardening.ps1 [-Msg] [-Rename] [-OU] [-Help/-h]
 
 Parameters:
-  -Msg         Prompts for title and text shown before log in.
-  -Rename      Prompts for new Administrator and Guest account names.
-  -OU          Creates OU and links the GPO to OU.
-  -Help / -h   Displays this help screen.
-```
+  -Msg          Prompts for title and text shown before log in.
+  -Rename       Prompts for new Administrator and Guest account names.
+  -OU           Creates OU and links the GPO to OU.
+  -Help / -h    Shows this help section.
+````
+
+## Coverage of CIS Benchmarks
+
+  * **Windows 10 Enterprise L1:** 99% base coverage. **100%** coverage when using `-Msg` and `-Rename`.
+  * **Windows 11 Enterprise L1:** \~86% coverage (Experimental).
+
+[View Compliance Reports](to fill)
 
 ## How It Works
 
-1.  **Safety Check:** Checks if the GPO exists. If it does, it warns that importing will **overwrite all settings**.
-2.  **Backup & Modify:** If parameters are used, it creates a temporary backup of `GptTmpl.inf`, modifies the original with your inputs, and prepares it for import.
-3.  **Atomic Import:** The settings are imported into Active Directory.
-4.  **Auto-Cleanup:** The script automatically restores the original clean `GptTmpl.inf` from the backup and removes any incomplete "zombie" GPOs if the script crashes.
+1.  **GPO Initialization:** Prompts for a GPO name. If it exists, requests confirmation to overwrite; otherwise, creates a new GPO.
+2.  **Atomic Modification:**
+    * **Safety Net:** Detects previous crashes and restores the environment, then creates a temporary backup of `GptTmpl.inf`.
+    * **Injection:** Directly modifies the INF file to inject parameters (Legal Notice, Account Renames) if flags are set.
+3.  **Import:** Pushes the (potentially modified) configuration into Active Directory.
+4.  **Auto-Restoration:** Uses a `try/finally` block to **always** restore the original `GptTmpl.inf` from the backup, ensuring the source files remain clean for future runs.
+5.  **Deployment (Optional):** If `-OU` is selected:
+    * **New OU:** Creates the OU and automatically links the imported GPO.
+    * **Existing OU:** Detects the OU and prompts for confirmation before linking.
 
----
+## Troubleshooting
 
-## Important: Visibility & ADMX Templates
+If some policies are not visible in **Group Policy Management Editor**, you are missing the latest ADMX/ADML templates in the Central Store.
 
-### Missing Group Policies in Editor
-After running the script, you may notice that **not all Group Policies appear** when viewing the GPO in the **Group Policy Management Editor**.
+**Fix:**
 
-According to the CIS Benchmark documentation, visibility of certain updated policies requires the latest versions of **ADMX/ADML templates** installed in a **Central Store**. Without these templates, the settings are applied to the machines, but you cannot view or edit them in the GPMC.
+1.  **Download:**
+      * [Administrative Templates (Windows 11)](https://www.microsoft.com/en-us/download/details.aspx?id=108394)
+      * [Security Baselines](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
+2.  **Create Central Store:** Ensure the following folder exists on your DC (if PolicyDefinitions doesn't exist create it):
+    `\\yourdomain.local\SYSVOL\yourdomain.local\Policies\PolicyDefinitions\`
+3.  **Install:** Copy `.admx` files and `en-US` folders from the downloads into `PolicyDefinitions`.
+4.  **Verify:** Open GPMC; you should now see "MS Security Guide" and "MSS (legacy)" under Administrative Templates.
 
-### Solution: Updating ADMX/ADML Files
-To fix this, you must create a Central Store and populate it with the latest Administrative Templates and Security Baselines.
+## Limitations
 
-#### 1. Download Templates
-* **Administrative Templates (Windows 11 25H2):** [Download here](https://www.microsoft.com/en-us/download/details.aspx?id=108394)
-    * Run the MSI installer. By default, files are extracted to:
-      `C:\Program Files (x86)\Microsoft Group Policy\Windows 11 Sep 2025 Update (25H2)\PolicyDefinitions`
-* **Security Baselines:** [Download here](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
-    * Download `Windows 11 v25H2 Security Baseline.zip`.
-    * Extract the zip and locate the `Templates` folder.
-
-#### 2. Create the Central Store
-The Central Store is not created by default. You must create it in the SYSVOL folder on your Domain Controller.
-
-1.  Find your domain DNS root:
-    ```powershell
-    Get-ADDomain | Select-Object DNSRoot
-    ```
-2.  Navigate to the following path (replace `yourdomain.local` with your actual domain):
-    `\\yourdomain.local\SYSVOL\yourdomain.local\Policies\`
-3.  Create a new folder named **`PolicyDefinitions`**.
-
-#### 3. Copy Files
-You must copy files from the downloaded locations (Step 1) into the new `PolicyDefinitions` folder (Step 2).
-
-* **ADMX Files:** Copy all `.admx` files directly into the root of `PolicyDefinitions`.
-* **ADML Files:** Copy the `en-US` folder (or your specific region folder) containing `.adml` files into `PolicyDefinitions`.
-
-**Structure Example:**
-```text
-\\yourdomain.local\SYSVOL\yourdomain.local\Policies\
-└── PolicyDefinitions\
-    ├── en-US\
-    │   ├── *.adml
-    │   └── ...
-    ├── *.admx
-    └── ...
-```
-
-#### 4. Verification
-1.  Open **Group Policy Management**.
-2.  Right-click the GPO and select **Edit**.
-3.  Navigate to **Computer Configuration > Policies > Administrative Templates**.
-4.  You should now see **"MS Security Guide"** and **"MSS (Legacy)"**, confirming the templates are loaded from the Central Store.
+* **Single Backup Context:** If multiple GPO backup folders exist in the script directory, it blindly processes the first one found.
+* **OS Support:** Fully validated for **Windows 10** only. Windows 11 support is currently experimental.
+* **Environment:** Must be executed on a **Domain Controller**.
+* **Object Management:** The script creates OUs and links GPOs but does **not** move or add computers/users to the new OU.
