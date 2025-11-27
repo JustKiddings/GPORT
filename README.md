@@ -4,7 +4,6 @@
 
 ## Quick Start
 
-<<<<<<< HEAD
 ### Prerequisites
 * **OS:** At least one domain joined Windows 10/11 PC and Windows Server running as DC.
 * **Permissions:** Domain Administrator or Delegated GPO/OU access.
@@ -34,7 +33,6 @@ You can find the detailed compliance and validation reports here:
 * **Files:** A valid GPO backup folder (containing `GptTmpl.inf`) must exist in the same directory as the script.
 
 ## Usage
->>>>>>> 5ea2229429c9ddee831e74de88b8914ec44fa8fb
 
 ```powershell
 .\hardening.ps1 -h
