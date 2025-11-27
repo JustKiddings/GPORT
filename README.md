@@ -11,7 +11,20 @@
 
 ### Usage
 Run the script to import hardening settings.
-=======
+
+```powershell
+
+.\hardening.ps1 -h
+
+Usage: .\hardening.ps1 [-Msg] [-Rename] [-OU] [-Help/-h]
+
+Parameters:
+
+  -Msg          Prompts for title and text shown before log in.
+  -Rename       Prompts for new Administrator and Guest account names.
+  -OU           Creates OU and links the GPO to OU.
+  -Help / -h    Shows this help section.
+````
 ## Coverage & Compatibility
 
 ### Windows 10
@@ -19,39 +32,15 @@ Run the script to import hardening settings.
 * **With Parameters:** When run with `-Msg` and `-Rename`, the script achieves **100%** coverage.
 
 ### Windows 11
-* **Note:** Windows 11 support is **not proper** at this time.
+* **Note:** Windows 11 support is **experimental** at this time.
 * The current GPO Backup covers approximately **86%** of the **CIS Microsoft Windows 11 Enterprise Benchmark (v4.0.0) L1 level**.
 
 ## Reports
-You can find the detailed compliance and validation reports here:
-[to fill]
-
-## Prerequisites
-
-* **OS:** Domain joined Windows 10/11 Workstation and Windows Server.
-* **Permissions:** Domain Administrator or Delegated GPO/OU permissions.
-* **Files:** A valid GPO backup folder (containing `GptTmpl.inf`) must exist in the same directory as the script.
-
-## Usage
-
-```powershell
-.\hardening.ps1 -h
-
-Usage: .\hardening.ps1 [-Msg] [-Rename] [-OU] [-Help/-h]
-
-Parameters:
-  -Msg          Prompts for title and text shown before log in.
-  -Rename       Prompts for new Administrator and Guest account names.
-  -OU           Creates OU and links the GPO to OU.
-  -Help / -h    Shows this help section.
-````
-
-## Coverage of CIS Benchmarks
-
-  * **Windows 10 Enterprise L1:** 99% base coverage. **100%** coverage when using `-Msg` and `-Rename`.
-  * **Windows 11 Enterprise L1:** \~86% coverage (Experimental).
-
-[View Compliance Reports](to fill)
+[View All CIS-CAT Lite Audit Reports](https://justkiddings.github.io/GPORT/)
+* [Baseline (24%)](https://justkiddings.github.io/GPORT/baseline.html)
+* [Script ran without parameters (99%)](https://justkiddings.github.io/GPORT/4-points-from-perfect.html)
+* [Script ran with -Msg parameter (99%)](https://justkiddings.github.io/GPORT/2-points-from-perfect.html)
+* [Script with -Msg and -Rename parameter (100%)](https://justkiddings.github.io/GPORT/every-hardening.html)
 
 ## How It Works
 
