@@ -2,7 +2,7 @@
 
 **GPORT** (GPO + Import) is a PowerShell script designed to automate the hardening of Windows machines by importing Group Policy Object (GPO) backups.
 
-The hardening settings imported by this script are derived from the **CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0) - Level 1**.
+The hardening settings imported by this script are derived from the **CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0) - Level 1**. You can obtain the official benchmark document from [CIS Security Benchmarks](https://learn.cisecurity.org/benchmarks).
 
 ## Prerequisites
 
