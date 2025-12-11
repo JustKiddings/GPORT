@@ -2,12 +2,18 @@
 
 **GPORT** automates Windows machine hardening by importing Group Policy Object (GPO) backup derived from hardening suggestions in the **[CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0)](https://learn.cisecurity.org/benchmarks) document**.
 
+
 ## Quick Start
 
 ### Prerequisites
 * **OS:** At least one domain joined Windows 10/11 PC and Windows Server running as DC.
 * **Permissions:** Domain Administrator or Delegated GPO/OU access.
 * **Files:** A valid GPO backup folder must be in the script directory.
+
+### To Get Started
+
+1.  **Download:** Get the GPORT.zip from the [releases page](https://github.com/JustKiddings/GPORT/releases/tag/v1.0.0) and extract its contents to a folder.
+2.  **Open PowerShell:** Open a PowerShell window in the extracted folder. Ensure the GPO backup folder (e.g., `{C38F5F91-39F5-468B-8520-1EC31A282424}`) and `hardening.ps1` script are present in the working directory.
 
 ### Usage
 Run the script to import hardening settings.
