@@ -1,6 +1,6 @@
 # GPORT
 
-**GPORT** automates Windows machine hardening by importing Group Policy Object (GPO) backup derived from hardening suggestions in the **[CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0)](https://learn.cisecurity.org/benchmarks) document**.
+**GPORT** automates Windows machine hardening by importing Group Policy Object (GPO) backup derived from hardening suggestions in the **[CIS Microsoft Windows 10/11 Enterprise Benchmark (v.4.0.0)](https://learn.cisecurity.org/benchmarks) document**.
 
 
 ## Quick Start
@@ -12,7 +12,7 @@
 
 ### To Get Started
 
-1.  **Download:** Get the GPORT.zip from the [releases page](https://github.com/JustKiddings/GPORT/releases/tag/v1.0.0) and extract its contents to a folder.
+1.  **Download:** Get the GPORT.zip from the [latest release](https://github.com/JustKiddings/GPORT/releases/) and extract its contents to a folder.
 2.  **Open PowerShell:** Open a PowerShell window in the extracted folder. Ensure the GPO backup folder (e.g., `{C38F5F91-39F5-468B-8520-1EC31A282424}`) and `hardening.ps1` script are present in the working directory.
 
 ### Usage
@@ -34,19 +34,17 @@ Parameters:
 ## Coverage & Compatibility
 
 ### Windows 10
+* **GPO Backup: CIS-W10-L1/{C38F5F91-39F5-468B-8520-1EC31A282424}**
 * **Without Parameters:** The script covers **99%** of the CIS Microsoft Windows 10 Enterprise Benchmark (v.4.0.0) L1 level.
 * **With Parameters:** When run with `-Msg` and `-Rename`, the script achieves **100%** coverage.
 
 ### Windows 11
-* **Note:** Windows 11 support is **experimental** at this time.
-* The current GPO Backup covers approximately **86%** of the **CIS Microsoft Windows 11 Enterprise Benchmark (v4.0.0) L1 level**.
+* **GPO Backup: CIS-W11-L1/{4F41DBA2-1D39-44FD-B09A-BC20565286A5}**
+* **Without Parameters:** The script covers **99%** of the CIS Microsoft Windows 11 Enterprise Benchmark (v.4.0.0) L1 level.
+* **With Parameters:** When run with `-Msg` and `-Rename`, the script achieves **100%** coverage. 
 
 ## Reports
 [View All CIS-CAT Lite Audit Reports](https://justkiddings.github.io/GPORT/)
-* [Baseline (24%)](https://justkiddings.github.io/GPORT/baseline.html)
-* [Script ran without parameters (99%)](https://justkiddings.github.io/GPORT/4-points-from-perfect.html)
-* [Script ran with -Msg parameter (99%)](https://justkiddings.github.io/GPORT/2-points-from-perfect.html)
-* [Script with -Msg and -Rename parameter (100%)](https://justkiddings.github.io/GPORT/every-hardening.html)
 
 ## How It Works
 
@@ -76,7 +74,5 @@ If some policies are not visible in **Group Policy Management Editor**, you are 
 
 ## Limitations
 
-* **Single Backup Context:** If multiple GPO backup folders exist in the script directory, it blindly processes the first one found.
-* **OS Support:** Fully validated for **Windows 10** only. Windows 11 support is currently experimental.
 * **Environment:** Must be executed on a **Domain Controller**.
 * **Object Management:** The script creates OUs and links GPOs but does **not** move or add computers/users to the new OU.

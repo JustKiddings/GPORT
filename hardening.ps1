@@ -6,6 +6,9 @@ param(
     [switch]$h
 )
 
+# [ENCODING FIX]
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 # Show help if requested
 if ($Help -or $h) {
 @"
@@ -23,55 +26,28 @@ Parameters:
 $currentDir = (Get-Location).ProviderPath
 Write-Host "Working folder: $currentDir"
 
-# ==========================================
-# GPO NAME CHECK & CREATION
-# ==========================================
-
-$gpoName = $null
-$proceedWithGPO = $false
-
-do {
-    Write-Host ""
-    $gpoName = Read-Host 'Name the GPO'
-
-    if ([string]::IsNullOrWhiteSpace($gpoName)) { continue }
-
-    $existing = Get-GPO -Name $gpoName -ErrorAction SilentlyContinue
-
-    if ($existing) {
-        Write-Host "⚠️  WARNING: GPO '$gpoName' already exists." -ForegroundColor Yellow
-        $ans = Read-Host "Are you sure you want to OVERWRITE it? (Y/N)"
-        if ($ans -match '^[Yy]') {
-            $proceedWithGPO = $true
-            Write-Host "Selected existing GPO: $gpoName" -ForegroundColor Cyan
-        }
-    } else {
-        try {
-            New-GPO -Name $gpoName -Comment "Imported by GPORT script" | Out-Null
-            Write-Host "✅ Created new GPO: $gpoName" -ForegroundColor Green
-            $proceedWithGPO = $true
-        } catch {
-            Write-Error "Failed to create GPO: $_"
-            exit 1
-        }
-    }
-} until ($proceedWithGPO)
+# Define Emojis (ASCII-Safe)
+$eCheck   = [char]0x2705                       # ✅
+$eWarn    = [char]0x26A0                       # ⚠️
+$eCross   = [char]0x274C                       # ❌
+$eSkip    = [char]0x23ED                       # ⏭️
+$eMemo    = [char]::ConvertFromUtf32(0x1F4DD)  # 📝
+$eBroom   = [char]::ConvertFromUtf32(0x1F9F9)  # 🧹
+$eSearch  = [char]::ConvertFromUtf32(0x1F50D)  # 🔍
 
 # ==========================================
 # HELPER FUNCTIONS
 # ==========================================
 
-function Get-BackupRootAndIdFromFile {
-    param([string]$fileFullPath)
-    $dir = Split-Path -Parent $fileFullPath
-    while ($dir -and ($dir -ne [IO.Path]::GetPathRoot($dir))) {
-        $name = Split-Path -Leaf $dir
-        if ($name -match '^\{?[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}\}?$') {
-            return @{ BackupRoot = (Split-Path -Parent $dir); BackupId = $name.Trim('{}') }
-        }
-        $dir = Split-Path -Parent $dir
-    }
-    return $null
+function Get-GpoDisplayNameFromBackup {
+    param([string]$backupXmlPath)
+    try {
+        [xml]$xml = Get-Content -Path $backupXmlPath -ErrorAction Stop
+        $name = $xml.GroupPolicyBackupScheme.GroupPolicyObject.GroupPolicyCoreSettings.DisplayName
+        if (-not [string]::IsNullOrWhiteSpace($name.'#cdata-section')) { return $name.'#cdata-section' }
+        if (-not [string]::IsNullOrWhiteSpace($name)) { return $name }
+    } catch {}
+    return "Unknown-GPO"
 }
 
 function Set-RegistryValueInINF {
@@ -109,30 +85,102 @@ function Ensure-SystemAccessLine {
 }
 
 # ==========================================
+# DISCOVER & SELECT GPO BACKUP
+# ==========================================
+
+Write-Host "`n$eSearch Scanning for GPO backups..."
+$backupXmlFiles = Get-ChildItem -Path $currentDir -Recurse -Filter "Backup.xml" -ErrorAction SilentlyContinue
+
+if (-not $backupXmlFiles) {
+    Write-Host "$eCross No 'Backup.xml' files found in subdirectories." -ForegroundColor Red
+    exit 1
+}
+
+$availableBackups = @()
+foreach ($file in $backupXmlFiles) {
+    $dir = $file.Directory
+    if ($dir.Name -match '^\{?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\}?$') {
+         $displayName = Get-GpoDisplayNameFromBackup -backupXmlPath $file.FullName
+         $availableBackups += [PSCustomObject]@{
+            Index = $availableBackups.Count + 1
+            DisplayName = $displayName
+            BackupId = $dir.Name.Trim('{}')
+            BackupRoot = $dir.Parent.FullName
+            Directory = $dir.FullName
+         }
+    }
+}
+
+if ($availableBackups.Count -eq 0) {
+    Write-Host "$eCross No valid GPO backup folders (GUID-named) found." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "Found the following GPO backups:" -ForegroundColor Cyan
+$availableBackups | Format-Table -Property Index, DisplayName, BackupId -AutoSize
+
+$selectedBackup = $null
+do {
+    $selectedIndex = Read-Host "Select ONE backup index to import"
+    $selectedBackup = $availableBackups | Where-Object { $_.Index -eq $selectedIndex }
+    if (-not $selectedBackup) {
+        Write-Warning "Invalid index. Please try again."
+    }
+} while (-not $selectedBackup)
+
+# ==========================================
+# GPO NAME CHECK & CREATION
+# ==========================================
+
+$gpoName = $null
+$proceedWithGPO = $false
+do {
+    Write-Host ""
+    $defaultName = $selectedBackup.DisplayName
+    $gpoName = Read-Host "Name the GPO (Press Enter for '$defaultName')"
+    if ([string]::IsNullOrWhiteSpace($gpoName)) { $gpoName = $defaultName }
+
+    $existing = Get-GPO -Name $gpoName -ErrorAction SilentlyContinue
+    if ($existing) {
+        Write-Host "$eWarn WARNING: GPO '$gpoName' already exists." -ForegroundColor Yellow
+        $ans = Read-Host "Are you sure you want to OVERWRITE it? (Y/N)"
+        if ($ans -match '^[Yy]') {
+            $proceedWithGPO = $true
+            Write-Host "Selected existing GPO: $gpoName" -ForegroundColor Cyan
+        }
+    } else {
+        try {
+            New-GPO -Name $gpoName -Comment "Imported by GPORT from backup $($selectedBackup.BackupId)" | Out-Null
+            Write-Host "$eCheck Created new GPO: $gpoName" -ForegroundColor Green
+            $proceedWithGPO = $true
+        } catch {
+            Write-Error "Failed to create GPO: $_"
+            exit 1
+        }
+    }
+} while (-not $proceedWithGPO)
+
+
+# ==========================================
 # LOCATE BACKUP & PREPARE SAFETY NET
 # ==========================================
 
-$gptFile = Get-ChildItem -Path $currentDir -Recurse -Filter "GptTmpl.inf" -ErrorAction SilentlyContinue | Select-Object -First 1
+$gptFile = Get-ChildItem -Path $selectedBackup.Directory -Recurse -Filter "GptTmpl.inf" -ErrorAction SilentlyContinue | Select-Object -First 1
 if (-not $gptFile) {
-    Write-Host "❌ No GptTmpl.inf found. Cannot import." -ForegroundColor Red
+    Write-Host "$eCross No GptTmpl.inf found in selected backup. Cannot import." -ForegroundColor Red
     exit 1
 }
 
 $FilePath = $gptFile.FullName
 $backupFile = "$FilePath.bak"
-$info = Get-BackupRootAndIdFromFile $FilePath
-$backupRoot = $info.BackupRoot
-$backupId   = $info.BackupId
+$backupRoot = $selectedBackup.BackupRoot
+$backupId   = $selectedBackup.BackupId
 
-# [CRASH RECOVERY]
-# If a .bak exists from a previous run that crashed, restore it NOW to ensure we start clean.
 if (Test-Path $backupFile) {
     Write-Warning "Found leftover backup from a previous crashed run. Restoring clean INF..."
     Move-Item -Path $backupFile -Destination $FilePath -Force
 }
 
-# [CREATE SNAPSHOT]
-# Create a fresh backup of the clean state before we touch anything.
 Copy-Item -Path $FilePath -Destination $backupFile -Force
 
 # ==========================================
@@ -140,9 +188,8 @@ Copy-Item -Path $FilePath -Destination $backupFile -Force
 # ==========================================
 
 try {
-    # --- Modification Logic ---
     if ($Msg) {
-        Write-Host "📝 Updating legal notice..."
+        Write-Host "$eMemo Updating legal notice..."
         $cap = Read-Host "Legal Title"
         $txt = Read-Host "Legal Text"
         Set-RegistryValueInINF -File $FilePath -KeyPattern "MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\LegalNoticeCaption" -NewValue $cap -DefaultType 1
@@ -150,16 +197,13 @@ try {
     }
 
     if ($Rename) {
-        Write-Host "📝 Updating account names..."
+        Write-Host "$eMemo Updating account names..."
         $adm = Read-Host "New Admin Name"
         $gst = Read-Host "New Guest Name"
-
         $lines = Get-Content -Path $FilePath -Encoding Unicode
-        $list = [System.Collections.Generic.List[string]]::new()
-        $list.AddRange([string[]]$lines)
+        $list = [System.Collections.Generic.List[string]]::new(); $list.AddRange([string[]]$lines)
         $sysIndex = -1
         for ($i = 0; $i -lt $list.Count; $i++) { if ($list[$i].Trim() -eq "[System Access]") { $sysIndex = $i; break } }
-
         if ($sysIndex -ge 0) {
             Ensure-SystemAccessLine -List $list -SysIndex $sysIndex -Key "NewAdministratorName" -Value $adm
             Ensure-SystemAccessLine -List $list -SysIndex $sysIndex -Key "NewGuestName" -Value $gst
@@ -169,23 +213,16 @@ try {
         }
     }
 
-    # --- Import Logic ---
     Write-Host "Importing settings into '$gpoName'..."
-    Import-GPO -BackupId ([guid]$backupId) -Path $backupRoot -TargetName $gpoName -CreateIfNeeded $true -ErrorAction Stop | Out-Null
-    Write-Host "✅ Import successfully completed." -ForegroundColor Green
-
+    Import-GPO -BackupId ([guid]$backupId) -Path $backupRoot -TargetName $gpoName -ErrorAction Stop | Out-Null
+    Write-Host "$eCheck Import successfully completed." -ForegroundColor Green
 }
 catch {
     Write-Error "An error occurred: $_"
-    # We do NOT exit here, we let it fall through to 'Finally' to clean up.
 }
 finally {
-    # ==========================================
-    # CLEANUP / RESTORE
-    # ==========================================
-    # This runs whether the script Succeeded OR Failed.
     if (Test-Path $backupFile) {
-        Write-Host "🧹 Restoring original GptTmpl.inf..." -ForegroundColor DarkGray
+        Write-Host "$eBroom Restoring original GptTmpl.inf..." -ForegroundColor DarkGray
         Move-Item -Path $backupFile -Destination $FilePath -Force
     }
 }
@@ -202,26 +239,22 @@ if ($OU) {
     $ouExists = Get-ADOrganizationalUnit -LDAPFilter "(distinguishedName=$ouDN)" -ErrorAction SilentlyContinue
 
     if (-not $ouExists) {
-        # --- NEW OU (Auto-Link) ---
         Write-Host "Creating new OU: $ouDN"
         New-ADOrganizationalUnit -Name $ouName -Path $domainDN
-        Write-Host "✅ OU Created."
+        Write-Host "$eCheck OU Created."
 
         Write-Host "Linking GPO to the new OU..."
         New-GPLink -Name $gpoName -Target $ouDN -Enforced No | Out-Null
-        Write-Host "✅ GPO Linked automatically." -ForegroundColor Green
+        Write-Host "$eCheck GPO Linked automatically." -ForegroundColor Green
     }
     else {
-        # --- EXISTING OU (Ask Confirmation) ---
-        Write-Host "⚠️  OU already exists: $ouDN" -ForegroundColor Yellow
+        Write-Host "$eWarn  OU already exists: $ouDN" -ForegroundColor Yellow
         $linkConfirm = Read-Host "Do you want to link the GPO to this EXISTING OU? (Y/N)"
-
         if ($linkConfirm -match '^[Yy]') {
             New-GPLink -Name $gpoName -Target $ouDN -Enforced No | Out-Null
-            Write-Host "✅ GPO Linked." -ForegroundColor Green
+            Write-Host "$eCheck GPO Linked." -ForegroundColor Green
         } else {
-            Write-Host "⏭️  Skipping Link."
+            Write-Host "$eSkip  Skipping Link."
         }
     }
 }
-

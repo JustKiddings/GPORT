@@ -51,7 +51,8 @@
                 gap: 1rem;
             }
 
-            .link-item {
+            .link-item,
+            .category-btn {
                 position: relative;
                 display: block;
                 padding: 1.25rem 2rem;
@@ -64,9 +65,13 @@
                 font-weight: 500;
                 transition: all 0.5s ease;
                 overflow: hidden;
+                cursor: pointer;
+                width: 100%;
+                text-align: center;
             }
 
-            .link-item::before {
+            .link-item::before,
+            .category-btn::before {
                 content: "";
                 position: absolute;
                 top: 0;
@@ -79,24 +84,28 @@
                 z-index: 0;
             }
 
-            .link-item:hover::before {
+            .link-item:hover::before,
+            .category-btn:hover::before {
                 opacity: 1;
             }
 
-            .link-item:hover {
+            .link-item:hover,
+            .category-btn:hover {
                 border-color: #feb195;
                 transform: translateY(-4px);
                 box-shadow: 0 12px 32px rgba(254, 177, 149, 0.25);
                 background: #1a1a1a;
             }
 
-            .link-item span {
+            .link-item span,
+            .category-btn span {
                 position: relative;
                 z-index: 1;
                 transition: all 0.5s ease;
             }
 
-            .link-item:hover span {
+            .link-item:hover span,
+            .category-btn:hover span {
                 color: #feb195;
                 letter-spacing: 0.02em;
             }
@@ -118,6 +127,28 @@
                 right: 1.5rem;
             }
 
+            .back-btn {
+                margin-bottom: 1.5rem;
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
+                background: #0a0a0a;
+            }
+
+            .back-btn::after {
+                content: "←";
+                left: 1.5rem;
+                right: auto;
+            }
+
+            .back-btn:hover::after {
+                left: 1rem;
+                right: auto;
+            }
+
+            .hidden {
+                display: none;
+            }
+
             @media (max-width: 640px) {
                 h1 {
                     font-size: 2rem;
@@ -127,7 +158,8 @@
                     font-size: 1rem;
                 }
 
-                .link-item {
+                .link-item,
+                .category-btn {
                     padding: 1rem 1.5rem;
                     font-size: 1rem;
                 }
@@ -148,19 +180,19 @@
                 animation: fadeIn 0.6s ease;
             }
 
-            .link-item:nth-child(1) {
+            .links > *:nth-child(1) {
                 animation: fadeIn 0.6s ease 0.1s both;
             }
-            .link-item:nth-child(2) {
+            .links > *:nth-child(2) {
                 animation: fadeIn 0.6s ease 0.2s both;
             }
-            .link-item:nth-child(3) {
+            .links > *:nth-child(3) {
                 animation: fadeIn 0.6s ease 0.3s both;
             }
-            .link-item:nth-child(4) {
+            .links > *:nth-child(4) {
                 animation: fadeIn 0.6s ease 0.4s both;
             }
-            .link-item:nth-child(5) {
+            .links > *:nth-child(5) {
                 animation: fadeIn 0.6s ease 0.5s both;
             }
         </style>
@@ -170,26 +202,80 @@
             <h1>Reports</h1>
             <p class="subtitle">Browse available reports</p>
 
-            <div class="links">
-                <a href="baseline.html" class="link-item">
+            <div class="links" id="main-menu">
+                <button class="category-btn" onclick="showCategory('win10')">
+                    <span>Windows 10 Benchmarks</span>
+                </button>
+                <button class="category-btn" onclick="showCategory('win11')">
+                    <span>Windows 11 Benchmarks</span>
+                </button>
+            </div>
+
+            <div class="links hidden" id="win10-menu">
+                <button class="category-btn back-btn" onclick="showMain()">
+                    <span>Back to Main Menu</span>
+                </button>
+                <a href="baseline-w10.html" class="link-item">
                     <span>CIS-CAT Lite Baseline Report (24%)</span>
                 </a>
-                <a href="4-points-from-perfect.html" class="link-item">
+                <a href="4-points-from-perfect-w10.html" class="link-item">
                     <span
                         >CIS-CAT Lite Report Script Ran without Parameters
                         (99%)</span
                     >
                 </a>
-                <a href="2-points-from-perfect.html" class="link-item">
+                <a href="2-points-from-perfect-w10.html" class="link-item">
                     <span
                         >CIS-CAT Lite Report with Script Ran with -Msg Param
                         (99%)</span
                     >
                 </a>
-                <a href="every-hardening.html" class="link-item">
+                <a href="every-hardening-w10.html" class="link-item">
+                    <span>CIS-CAT Lite All Hardenings Report (100%)</span>
+                </a>
+            </div>
+
+            <div class="links hidden" id="win11-menu">
+                <button class="category-btn back-btn" onclick="showMain()">
+                    <span>Back to Main Menu</span>
+                </button>
+                <a href="baseline-w11.html" class="link-item">
+                    <span>CIS-CAT Lite Baseline Report (28%)</span>
+                </a>
+                <a href="only-w10-w11.html" class="link-item">
+                    <span
+                        >CIS-CAT Lite without Windows 11 Hardenings Report
+                        (91%)</span
+                    >
+                </a>
+                <a href="everything-w11.html" class="link-item">
                     <span>CIS-CAT Lite All Hardenings Report (100%)</span>
                 </a>
             </div>
         </div>
+
+        <script>
+            function showCategory(category) {
+                document.getElementById("main-menu").classList.add("hidden");
+                document.getElementById("win10-menu").classList.add("hidden");
+                document.getElementById("win11-menu").classList.add("hidden");
+
+                if (category === "win10") {
+                    document
+                        .getElementById("win10-menu")
+                        .classList.remove("hidden");
+                } else if (category === "win11") {
+                    document
+                        .getElementById("win11-menu")
+                        .classList.remove("hidden");
+                }
+            }
+
+            function showMain() {
+                document.getElementById("main-menu").classList.remove("hidden");
+                document.getElementById("win10-menu").classList.add("hidden");
+                document.getElementById("win11-menu").classList.add("hidden");
+            }
+        </script>
     </body>
 </html>
